@@ -18,7 +18,7 @@
           </div>
         </a-menu-item>
         <a-menu-item v-for="item in routes" :key="item.path">
-          {{ item.name }}
+          <span v-if="item.name !== '无权限'">{{ item.name }}</span>
         </a-menu-item>
       </a-menu>
     </a-col>
@@ -51,7 +51,8 @@ const doMenuClick = (key: string) => {
 const store = useStore();
 setTimeout(() => {
   store.dispatch("user/getLoginUser", {
-    userName: "mememe",
+    userName: "mememesdads",
+    role: "admin",
   });
 }, 3000);
 </script>

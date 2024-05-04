@@ -2,6 +2,7 @@ import { RouteRecordRaw } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import AdminView from "@/views/AdminView.vue";
 import NoAuthView from "@/views/NoAuthView.vue";
+import ACCESS_ENUM from "@/access/accessEnum";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -10,11 +11,19 @@ export const routes: Array<RouteRecordRaw> = [
     component: HomeView,
   },
   {
+    path: "/hide",
+    name: "hide",
+    component: HomeView,
+    meta: {
+      hide: true,
+    },
+  },
+  {
     path: "/admin",
     name: "Admin",
     component: AdminView,
     meta: {
-      access: "canAdmin",
+      access: ACCESS_ENUM.ADMIN,
     },
   },
   {
@@ -30,5 +39,8 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/noAuth",
     name: "无权限",
     component: NoAuthView,
+    meta: {
+      hide: true,
+    },
   },
 ];

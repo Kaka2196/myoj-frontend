@@ -1,5 +1,5 @@
 <template>
-  <a-row id="globalHeader" align="center" style="margin-bottom: 16px">
+  <a-row id="globalHeader" align="center" :wrap="false">
     <a-col flex="auto">
       <a-menu
         mode="horizontal"
@@ -17,8 +17,8 @@
             <div class="title">MYOJ</div>
           </div>
         </a-menu-item>
-        <a-menu-item v-for="item in routes" :key="item.path">
-          <span v-if="item.name !== '无权限'">{{ item.name }}</span>
+        <a-menu-item v-for="item in visibleRoutes" :key="item.path">
+          <span>{{ item.name }}</span>
         </a-menu-item>
       </a-menu>
     </a-col>
@@ -31,12 +31,30 @@
 <script setup lang="ts">
 import { routes } from "@/router/routes";
 import { useRoute, useRouter } from "vue-router";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
+import checkAccess from "@/access/checkAccess";
+import ACCESS_ENUM from "@/access/accessEnum";
 
 const router = useRouter();
 const route = useRoute();
 const selectedKeys = ref(["/"]);
+const store = useStore();
+// console.log(store.state);
+//过滤后展示的路由菜单
+const visibleRoutes = computed(() => {
+  return routes.filter((item, index) => {
+    if (item.meta?.hide) {
+      return false;
+    }
+    if (
+      !checkAccess(store.state.user.loginUser, item?.meta?.access as string)
+    ) {
+      return false;
+    }
+    return true;
+  });
+});
 
 router.afterEach((to) => {
   selectedKeys.value = [to.path];
@@ -45,14 +63,13 @@ const doMenuClick = (key: string) => {
   router.push({
     path: key,
   });
-  console.log(key);
+  // console.log(key);
 };
 
-const store = useStore();
 setTimeout(() => {
   store.dispatch("user/getLoginUser", {
-    userName: "mememesdads",
-    role: "admin",
+    userName: "SB",
+    role: ACCESS_ENUM.ADMIN,
   });
 }, 3000);
 </script>

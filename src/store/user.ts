@@ -1,4 +1,5 @@
 import { StoreOptions } from "vuex";
+import ACCESS_ENUM from "@/access/accessEnum";
 // state 存储的用户信息(如用户信息)
 // getters
 // mutations 定义了对变量进行增删改查的方法
@@ -9,13 +10,13 @@ export default {
   state: () => ({
     loginUser: {
       userName: "未登录",
-      role: "NoLogin",
+      role: ACCESS_ENUM.NOT_LOGIN,
     },
   }),
   actions: {
     getLoginUser({ commit, state }, payload) {
       // todo 改为从远程请求获取登录信息
-      commit("updateUser", { userName: payload.userName, role: payload.role });
+      commit("updateUser", payload);
     },
   },
   mutations: {

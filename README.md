@@ -1,24 +1,12 @@
-# myoj-frontend
+## openapi 自动生成axios请求
+    openapi --input http://localhost:8101/api/v2/api-docs --output ./generated ==client axios
 
-## Project setup
-```
-npm install
-```
+### 更改openapi配置
+    export const OpenAPI: OpenAPIConfig = {
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+    BASE: "http://localhost:8101",
 
-### Compiles and minifies for production
-```
-npm run build
-```
+    WITH_CREDENTIALS: true,
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+    ......
+    };
